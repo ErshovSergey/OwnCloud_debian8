@@ -20,7 +20,11 @@ RUN export DEBIAN_FRONTEND='noninteractive' && \
   && echo "deb http://download.owncloud.org/download/repositories/stable/$DIST/ /" > /etc/apt/sources.list.d/owncloud.list \
   && wget -q $URL/Release.key -O- | apt-key add - \
   && apt-get update -qqy \
-  && apt-get -y install --no-install-recommends -yqq owncloud
+  && apt-get -y install --no-install-recommends -yqq owncloud \
+  && apt-get purge -qqy wget \
+  && apt-get autoremove -qqy \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/*
 
 ENTRYPOINT ["/entrypoint.sh"]
 
